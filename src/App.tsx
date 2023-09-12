@@ -41,6 +41,7 @@ function App() {
                 placeholder='Inclua o prompt para a IA...'
               />
               <Textarea
+                className='resize-none p-4 leading-relaxed'
                 placeholder='Resultado gerado pela IA...'
                 readOnly
               />
