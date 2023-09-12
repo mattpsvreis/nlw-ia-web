@@ -7,8 +7,15 @@ import { ThemeProvider } from './hooks/useTheme';
 import { Label } from './components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './components/ui/select';
 import { Slider } from './components/ui/slider';
+import React from 'react';
 
 function App() {
+  const [temperature, setTemperature] = React.useState<number[]>([0.5]);
+
+  function handleTemperatureChange(value: number[]) {
+    setTemperature(value);
+  }
+
   return (
     <ThemeProvider>
       <div className='min-h-screen flex flex-col'>
@@ -29,9 +36,18 @@ function App() {
               className='h-6'
             />
 
-            <Button variant='outline'>
-              <Github className='w-5 h-5 mr-2' />
-              <span>Github</span>
+            <Button
+              variant='outline'
+              asChild
+            >
+              <a
+                href='https://github.com/mattpsvreis/nlw-ia-web'
+                target='_blank'
+                rel='noreferrer'
+              >
+                <Github className='w-5 h-5 mr-2' />
+                <span>Github</span>
+              </a>
             </Button>
           </div>
         </div>
@@ -73,7 +89,7 @@ function App() {
                 <Textarea
                   id='transcriptionPrompt'
                   className='h-20 leading-relaxed resize-none'
-                  placeholder='Inclua palavras-chave mencionadas no vídeo separadas por vírgula (,)'
+                  placeholder='Inclua palavras-chave mencionadas no vídeo separadas por vírgula (,).'
                 />
               </div>
 
@@ -81,7 +97,7 @@ function App() {
                 type='submit'
                 className='w-full'
               >
-                Carregar vídeo
+                Processar vídeo
                 <Upload className='w-4 h-4 ml-2' />
               </Button>
             </form>
@@ -121,20 +137,25 @@ function App() {
                     <SelectItem value='gpt3.5'>GPT 3.5-turbo 16k</SelectItem>
                   </SelectContent>
                 </Select>
-                <span className='block text-xs text-muted-foreground italic'>Você poderá customizar essa opção em breve</span>
+                <span className='block text-xs text-muted-foreground italic'>Você poderá customizar essa opção em breve.</span>
               </div>
 
               <Separator />
 
               <div className='space-y-4'>
-                <Label>Temperatura</Label>
+                <Label className='flex items-center justify-between'>
+                  <span>Temperatura</span>
+                  <span className='text-muted-foreground'>{temperature}</span>
+                </Label>
                 <Slider
                   min={0}
                   max={1}
                   step={0.1}
+                  value={temperature}
+                  onValueChange={handleTemperatureChange}
                 />
                 <span className='block text-xs text-muted-foreground italic'>
-                  Valores mais altos tendem a deixar o resultado mais criativo porém menos preciso
+                  Valores mais altos tendem a deixar o resultado mais criativo porém menos precisos.
                 </span>
               </div>
 
