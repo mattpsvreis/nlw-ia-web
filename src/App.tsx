@@ -1,10 +1,12 @@
-import { FileVideo, Github } from 'lucide-react';
+import { FileVideo, Github, Upload, Wand2 } from 'lucide-react';
 import { Button } from './components/ui/button';
 import { Separator } from './components/ui/separator';
 import { Textarea } from './components/ui/textarea';
 import ThemeButton from './components/ui/themeButton';
 import { ThemeProvider } from './hooks/useTheme';
 import { Label } from './components/ui/label';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './components/ui/select';
+import { Slider } from './components/ui/slider';
 
 function App() {
   return (
@@ -46,10 +48,6 @@ function App() {
                 readOnly
               />
             </div>
-            <p className='text-sm text-muted-foreground'>
-              Lembre-se: Você pode utilizar a variável <code className='text-violet-400'>{`{transcription}`}</code> no seu prompt para adicionar o conteúdo da
-              transcrição do vídeo selecionado.
-            </p>
           </div>
 
           <aside className='w-80 space-y-6'>
@@ -69,17 +67,95 @@ function App() {
               />
               <Separator />
 
-              <div className='space-y-1'>
+              <div className='space-y-2'>
                 <Label htmlFor='transcriptionPrompt'>Prompt de transcrição</Label>
                 <Textarea
                   id='transcriptionPrompt'
-                  className='min-h-20 leading-relaxed'
+                  className='h-20 leading-relaxed resize-none'
                   placeholder='Inclua palavras-chave mencionadas no vídeo separadas por vírgula (,)'
                 />
               </div>
+
+              <Button
+                type='submit'
+                className='w-full'
+              >
+                Carregar vídeo
+                <Upload className='w-4 h-4 ml-2' />
+              </Button>
+            </form>
+
+            <Separator />
+
+            <form className='space-y-6'>
+              <div className='space-y-2'>
+                <Label>Prompt</Label>
+                <Select>
+                  <SelectTrigger>
+                    <SelectValue placeholder='Selecione um prompt...' />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value='titleYT'>Título para YouTube</SelectItem>
+                    <SelectItem value='descYT'>Descrição para YouTube</SelectItem>
+                    <SelectItem
+                      value='extras'
+                      disabled
+                    >
+                      Em breve mais opções..
+                    </SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div className='space-y-2'>
+                <Label>Modelo</Label>
+                <Select
+                  defaultValue='gpt3.5'
+                  disabled
+                >
+                  <SelectTrigger>
+                    <SelectValue></SelectValue>
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value='gpt3.5'>GPT 3.5-turbo 16k</SelectItem>
+                  </SelectContent>
+                </Select>
+                <span className='block text-xs text-muted-foreground italic'>Você poderá customizar essa opção em breve</span>
+              </div>
+
+              <Separator />
+
+              <div className='space-y-4'>
+                <Label>Temperatura</Label>
+                <Slider
+                  min={0}
+                  max={1}
+                  step={0.1}
+                />
+                <span className='block text-xs text-muted-foreground italic'>
+                  Valores mais altos tendem a deixar o resultado mais criativo porém menos preciso
+                </span>
+              </div>
+
+              <Separator />
+
+              <Button
+                type='submit'
+                className='w-full'
+              >
+                Executar
+                <Wand2 className='w-4 h-4 ml-2' />
+              </Button>
             </form>
           </aside>
         </main>
+
+        <footer className='flex-1 px-6 pb-6 flex gap-6 items-center justify-between'>
+          <p className='text-sm text-muted-foreground'>
+            Lembre-se: Você pode utilizar a variável <code className='text-violet-400'>{`{transcription}`}</code> no seu prompt para adicionar o conteúdo da
+            transcrição do vídeo selecionado.
+          </p>
+        </footer>
       </div>
     </ThemeProvider>
   );
