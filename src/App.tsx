@@ -18,6 +18,10 @@ function App() {
     setTemperature(value);
   }
 
+  function handlePromptSelected(template: string) {
+    console.log(template);
+  }
+
   return (
     <ThemeProvider>
       <div className='min-h-screen flex flex-col'>
@@ -77,7 +81,7 @@ function App() {
             <form className='space-y-6'>
               <div className='space-y-2'>
                 <Label>Prompt</Label>
-                <PromptSelect />
+                <PromptSelect onPromptSelected={handlePromptSelected} />
               </div>
 
               <div className='space-y-2'>
