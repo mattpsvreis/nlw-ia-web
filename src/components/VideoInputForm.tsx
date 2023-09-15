@@ -18,7 +18,11 @@ const uploadStatusMessages = {
   error: 'Ocorreu um erro!',
 };
 
-export default function VideoInputForm() {
+interface VideoInputFormProps {
+  onVideoUploaded: (id: string) => void;
+}
+
+export default function VideoInputForm(props: VideoInputFormProps) {
   const [videoFile, setVideoFile] = useState<File | null>(null);
   const [uploadStatus, setUploadStatus] = useState<Status>('waiting');
 
@@ -93,6 +97,8 @@ export default function VideoInputForm() {
     console.log('Transcription generated.');
 
     setUploadStatus('success');
+
+    props.onVideoUploaded(videoId);
   }
 
   const previewURL = useMemo(() => {

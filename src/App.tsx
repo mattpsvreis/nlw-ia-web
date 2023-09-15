@@ -7,12 +7,13 @@ import { ThemeProvider } from './hooks/useTheme';
 import { Label } from './components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './components/ui/select';
 import { Slider } from './components/ui/slider';
-import React from 'react';
+import React, { useState } from 'react';
 import VideoInputForm from './components/VideoInputForm';
 import { PromptSelect } from './components/PromptSelect';
 
 function App() {
   const [temperature, setTemperature] = React.useState<number>(0.5);
+  const [videoId, setVideoId] = useState<string | null>(null);
 
   function handlePromptSelected(template: string) {
     console.log(template);
@@ -70,7 +71,7 @@ function App() {
           </div>
 
           <aside className='w-80 space-y-6'>
-            <VideoInputForm />
+            <VideoInputForm onVideoUploaded={setVideoId} />
 
             <Separator />
 
