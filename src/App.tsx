@@ -12,11 +12,7 @@ import VideoInputForm from './components/VideoInputForm';
 import { PromptSelect } from './components/PromptSelect';
 
 function App() {
-  const [temperature, setTemperature] = React.useState<number[]>([0.5]);
-
-  function handleTemperatureChange(value: number[]) {
-    setTemperature(value);
-  }
+  const [temperature, setTemperature] = React.useState<number>(0.5);
 
   function handlePromptSelected(template: string) {
     console.log(template);
@@ -111,8 +107,8 @@ function App() {
                   min={0}
                   max={1}
                   step={0.1}
-                  value={temperature}
-                  onValueChange={handleTemperatureChange}
+                  value={[temperature]}
+                  onValueChange={(value) => setTemperature(value[0])}
                 />
                 <span className='block text-xs text-muted-foreground italic'>
                   Valores mais altos tendem a deixar o resultado mais criativo porém menos precisos.
