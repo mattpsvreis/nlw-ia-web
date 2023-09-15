@@ -7,17 +7,25 @@ import { ThemeProvider } from './hooks/useTheme';
 import { Label } from './components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './components/ui/select';
 import { Slider } from './components/ui/slider';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import VideoInputForm from './components/VideoInputForm';
 import { PromptSelect } from './components/PromptSelect';
+import { useCompletion } from 'ai/react';
 
 function App() {
-  const [temperature, setTemperature] = React.useState<number>(0.5);
+  const [temperature, setTemperature] = useState<number>(0.5);
   const [videoId, setVideoId] = useState<string | null>(null);
 
-  function handlePromptSelected(template: string) {
-    console.log(template);
-  }
+  const { input, setInput, handleInputChange, handleSubmit, completion, isLoading } = useCompletion({
+    api: 'http://localhost:3333/ai/complete',
+    body: {
+      videoId,
+      temperature,
+    },
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
 
   return (
     <ThemeProvider>
@@ -61,10 +69,13 @@ function App() {
               <Textarea
                 className='resize-none p-4 leading-relaxed'
                 placeholder='Inclua o prompt para a IA...'
+                value={input}
+                onChange={handleInputChange}
               />
               <Textarea
                 className='resize-none p-4 leading-relaxed'
                 placeholder='Resultado gerado pela IA...'
+                value={completion}
                 readOnly
               />
             </div>
@@ -75,10 +86,13 @@ function App() {
 
             <Separator />
 
-            <form className='space-y-6'>
+            <form
+              onSubmit={handleSubmit}
+              className='space-y-6'
+            >
               <div className='space-y-2'>
                 <Label>Prompt</Label>
-                <PromptSelect onPromptSelected={handlePromptSelected} />
+                <PromptSelect onPromptSelected={setInput} />
               </div>
 
               <div className='space-y-2'>
@@ -121,6 +135,7 @@ function App() {
               <Button
                 type='submit'
                 className='w-full'
+                disabled={isLoading}
               >
                 Executar
                 <Wand2 className='w-4 h-4 ml-2' />
