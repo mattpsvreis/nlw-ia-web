@@ -9,6 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '.
 import { Slider } from './components/ui/slider';
 import React from 'react';
 import VideoInputForm from './components/VideoInputForm';
+import { PromptSelect } from './components/PromptSelect';
 
 function App() {
   const [temperature, setTemperature] = React.useState<number[]>([0.5]);
@@ -76,21 +77,7 @@ function App() {
             <form className='space-y-6'>
               <div className='space-y-2'>
                 <Label>Prompt</Label>
-                <Select>
-                  <SelectTrigger>
-                    <SelectValue placeholder='Selecione um prompt...' />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value='titleYT'>Título para YouTube</SelectItem>
-                    <SelectItem value='descYT'>Descrição para YouTube</SelectItem>
-                    <SelectItem
-                      value='extras'
-                      disabled
-                    >
-                      Em breve mais opções..
-                    </SelectItem>
-                  </SelectContent>
-                </Select>
+                <PromptSelect />
               </div>
 
               <div className='space-y-2'>
